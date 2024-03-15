@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 
-import { httpErrorInterceptorProvider } from './services/http-error.interceptor';
+import { httpErrorInterceptorProvider } from './interceptors/http-error.interceptor';
 
 @Component({
   selector: 'app-root',

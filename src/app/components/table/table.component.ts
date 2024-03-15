@@ -17,7 +17,7 @@ export class TableComponent<T> {
     return this._selectedIndex;
   }
 
-  selectTableRow(index: number) {
+  selectTableRow(index: number): void {
     this._selectedIndex = index;
   }
 

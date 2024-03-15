@@ -3,7 +3,9 @@ export interface CustomError {
   message: string;
 }
 
-export const errorMessages = {
+export const errorMessages: {
+  [key: string]: string
+} = {
   required: 'is required',
   usernameTaken: 'Username is taken',
   email: 'Invalid email',

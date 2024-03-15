@@ -5,9 +5,9 @@ import {
   ViewContainerRef,
 } from '@angular/core';
 import { CommonModule, AsyncPipe } from '@angular/common';
-import { Subject, of, switchMap, takeUntil } from 'rxjs';
+import { Observable, Subject, of, switchMap, takeUntil } from 'rxjs';
 
-import { IUser, UserComponentType } from '../../models/user.model';
+import { IUser, UserComponentType, UserEmittedData } from '../../models/user.model';
 import { ToasterService } from '../../services/toaster.service';
 import { UserService } from '../../services/user.service';
 import { CreateUserComponent } from '../user/create-user/create-user.component';
@@ -40,7 +40,7 @@ export class HomeComponent {
     | ComponentRef<CreateUserComponent | UpdateUserComponent>
     | undefined = undefined;
 
-  readonly tableConfig = [
+  readonly userTableConfig = [
     {
       definition: 'username',
       name: 'username',
@@ -80,30 +80,28 @@ export class HomeComponent {
     private toasterService: ToasterService
   ) {}
 
-  ngOnInit() {}
+  ngOnInit(): void {}
 
-  ngOnDestroy() {
+  ngOnDestroy(): void {
     this.unsubscriber$.next();
     this.unsubscriber$.complete();
   }
 
-  private openUserForm(componentType: UserComponentType, data?: IUser) {
+  private openUserForm(componentType: UserComponentType, data?: IUser): Observable<UserEmittedData | null> | null {
     this.viewContainerRef.clear();
     if (componentType === CreateUserComponent) {
       this.userFormComponentRef =
         this.viewContainerRef.createComponent(CreateUserComponent);
-      return this.userFormComponentRef.instance.closed$;
     } else if (componentType === UpdateUserComponent && data) {
       this.userFormComponentRef =
         this.viewContainerRef.createComponent(UpdateUserComponent);
       this.userFormComponentRef.setInput('user', data);
-      return this.userFormComponentRef.instance.closed$;
     }
 
-    return null;
+    return this.userFormComponentRef ? this.userFormComponentRef.instance.closed$ : null;
   }
 
-  openCreateUserForm() {
+  openCreateUserForm(): void {
     this.openUserForm(CreateUserComponent)
       ?.pipe(
         switchMap((data) => {
@@ -126,7 +124,7 @@ export class HomeComponent {
       });
   }
 
-  openUpdateUserForm(user: IUser) {
+  openUpdateUserForm(user: IUser): void {
     this.openUserForm(UpdateUserComponent, user)
       ?.pipe(
         switchMap((data) => {

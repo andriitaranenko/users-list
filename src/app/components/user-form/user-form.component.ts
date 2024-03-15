@@ -38,14 +38,14 @@ export class UserFormComponent implements OnInit, OnDestroy {
   @Input({ required: true }) controlKey = '';
   @Input() user: IUser | undefined = undefined;
 
-  parentContainer = inject(ControlContainer);
+  private readonly parentContainer = inject(ControlContainer);
 
-  get parentFormGroup() {
+  get parentFormGroup(): FormGroup {
     return this.parentContainer.control as FormGroup;
   }
 
-  get formGroup() {
-    return this.parentFormGroup.get(this.controlKey);
+  get formGroup(): FormGroup {
+    return this.parentFormGroup.get(this.controlKey) as FormGroup;
   }
 
   constructor(private formBuilder: FormBuilder) {}
@@ -58,31 +58,26 @@ export class UserFormComponent implements OnInit, OnDestroy {
     }
   }
 
-  ngOnDestroy() {
+  ngOnDestroy(): void {
     this.parentFormGroup.removeControl(this.controlKey);
   }
 
-  generateEmptyUserForm() {
+  generateEmptyUserForm(): void {
     this.parentFormGroup.addControl(
       this.controlKey,
-      this.formBuilder.group(
-        {
-          username: [null, [Validators.required]],
-          firstName: [null, [Validators.required]],
-          lastName: [null, [Validators.required]],
-          email: [
-            null,
-            [Validators.required, Validators.email],
-          ],
-          type: [null, [Validators.required]],
-          password: [null, [Validators.required, Validators.minLength(8)]],
-          passwordRepeat: [null, [Validators.required]],
-        }
-      )
+      this.formBuilder.group({
+        username: [null, [Validators.required]],
+        firstName: [null, [Validators.required]],
+        lastName: [null, [Validators.required]],
+        email: [null, [Validators.required, Validators.email]],
+        type: [null, [Validators.required]],
+        password: [null, [Validators.required, Validators.minLength(8)]],
+        passwordRepeat: [null, [Validators.required]],
+      })
     );
   }
 
-  populateUserForm(user: IUser) {
+  populateUserForm(user: IUser): void {
     const formControl = this.parentFormGroup.get(this.controlKey);
     if (formControl) {
       formControl.patchValue({
@@ -98,7 +93,7 @@ export class UserFormComponent implements OnInit, OnDestroy {
   isControlValid(controlName: string): boolean {
     return Boolean(
       this.formGroup?.get(controlName)?.touched &&
-      (this.formGroup?.get(controlName)?.errors !== null)
+        this.formGroup?.get(controlName)?.errors !== null
     );
   }
 
@@ -112,13 +107,11 @@ export class UserFormComponent implements OnInit, OnDestroy {
 
   getErrorMessage(error: string, formFieldName?: string): string {
     if (error in errorMessages && error === 'required') {
-      return `${formFieldName ?? 'This field'} ${errorMessages.required}`;
+      return `${formFieldName ?? 'This field'} ${errorMessages['required']}`;
     } else if (error in errorMessages) {
-      return errorMessages[error as keyof typeof errorMessages]
+      return errorMessages[error as keyof typeof errorMessages];
     }
 
     return '';
   }
-
-
 }

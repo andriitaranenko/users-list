@@ -16,7 +16,8 @@ import { UserComponentActions } from '../../../models/user.model';
 })
 export class CreateUserComponent extends GenericUserComponent {
   override userFormControlKey = 'createUserForm';
-  createUser() {
+
+  createUser(): void {
     if (!this.form.valid) return;
 
     this.onClose$.next({

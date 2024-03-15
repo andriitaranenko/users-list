@@ -52,7 +52,7 @@ export class UserService {
     return of(this.users.map((user) => user.username).includes(username));
   }
 
-  createUser(user: IUser) {
+  createUser(user: IUser): Observable<IUser> {
     this.users.push({
       ...user,
       id: Number(new Date()),
@@ -62,7 +62,7 @@ export class UserService {
     );
   }
 
-  updateUser(id: number, updatedUser: IUser) {
+  updateUser(id: number, updatedUser: IUser): Observable<IUser> {
     const userIndex = this.users.findIndex((user) => user.id === id);
     this.users.splice(userIndex, 1);
     this.users.push({ ...updatedUser, id: Number(new Date()) });
@@ -71,15 +71,15 @@ export class UserService {
     );
   }
 
-  deleteUser(id: number) {
+  deleteUser(id: number): Observable<IUser> {
     const userIndex = this.users.findIndex((user) => user.id === id);
-    this.users.splice(userIndex, 1);
-    return of({ message: 'deleated successfully' }).pipe(
+    const deletedUser = this.users.splice(userIndex, 1)[0];
+    return of(deletedUser).pipe(
       catchError((error) => this.handleUserRequestError(error))
     );
   }
 
-  private handleUserRequestError(error: HttpErrorResponse) {
+  private handleUserRequestError(error: HttpErrorResponse): Observable<never> {
     this.toasterService.showError('Error message');
     return throwError(() => error);
   }

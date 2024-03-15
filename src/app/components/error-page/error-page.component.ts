@@ -16,7 +16,9 @@ export class ErrorPageComponent implements OnInit {
     code: 404,
     message: 'Page not found',
   };
+
   constructor(private route: ActivatedRoute) {}
+
   ngOnInit(): void {
     this.route.params.pipe(take(1)).subscribe((data) => {
       const { errorCode, errorMessage } = data;

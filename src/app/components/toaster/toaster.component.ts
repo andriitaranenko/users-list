@@ -19,18 +19,18 @@ export class ToasterComponent {
     @Inject(TOAST_CONFIG_TOKEN) public toastConfig: ToastConfig
   ) {}
 
-  ngOnInit() {
+  ngOnInit(): void {
     // sets the timer for closing toast
     this.intervalId = timer(5000).subscribe(() => {
       this.close();
     });
   }
 
-  close() {
+  close(): void {
     this.toastRef.close();
   }
 
-  ngOnDestroy() {
+  ngOnDestroy(): void {
     this.intervalId?.unsubscribe();
   }
 }

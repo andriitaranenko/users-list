@@ -17,19 +17,19 @@ export class UpdateUserComponent extends GenericUserComponent {
 
   @Input() user!: IUser;
 
-  updateUser() {
+  updateUser(): void {
     if (!this.form.valid) return;
 
     this.onClose$.next({
       type: UserComponentActions.UPDATE_USER,
-      user: { ...this.form.get('userForm')?.value, id: this.user.id }
+      user: { ...this.form.get('userForm')?.value, id: this.user.id },
     });
   }
 
-  deleteUser() {
+  deleteUser(): void {
     this.onClose$.next({
       type: UserComponentActions.DELETE_USER,
-      user: this.user
+      user: this.user,
     });
   }
 }

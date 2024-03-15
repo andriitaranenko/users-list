@@ -2,7 +2,7 @@
   <div class="buttons">
     <app-button label="Creat user" (click)="openCreateUserForm()"></app-button>
   </div>
-  <app-table [data]="(tableData$ | async)!" [columns]="tableConfig"></app-table>
+  <app-table [data]="(tableData$ | async)!" [columns]="userTableConfig"></app-table>
 </div>
 <div class="form">
   <ng-container #viewContainerRef></ng-container>

@@ -3,7 +3,7 @@ import { OverlayRef } from '@angular/cdk/overlay';
 export class ToastRef {
   constructor(private readonly overlayRef: OverlayRef) {}
 
-  close() {
+  close(): void {
     this.overlayRef.dispose();
   }
 }

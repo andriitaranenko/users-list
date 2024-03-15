@@ -12,13 +12,18 @@ import { UserEmittedData } from '../../models/user.model';
 })
 export class GenericUserComponent {
   protected readonly userFormControlKey: string = '';
+
   protected onClose$ = new Subject<UserEmittedData | null>();
-  closed$ = this.onClose$.asObservable();
-  protected close() {
-    this.onClose$.next(null);
-  }
+
   protected form: FormGroup = new FormGroup({});
+
+  closed$ = this.onClose$.asObservable();
+
   constructor(private formBuilder: FormBuilder) {
     this.form = this.formBuilder.group({});
+  }
+
+  protected close(): void {
+    this.onClose$.next(null);
   }
 }
