@@ -1,6 +1,7 @@
 import {
   Component,
   ComponentRef,
+  OnDestroy,
   ViewChild,
   ViewContainerRef,
 } from '@angular/core';
@@ -14,6 +15,7 @@ import { CreateUserComponent } from '../user/create-user/create-user.component';
 import { UpdateUserComponent } from '../user/update-user/update-user.component';
 import { ButtonComponent } from '../button/button.component';
 import { TableComponent } from '../table/table.component';
+import { ITableColumn } from '../../models/table.models';
 
 @Component({
   selector: 'app-home',
@@ -29,18 +31,18 @@ import { TableComponent } from '../table/table.component';
   styleUrl: './home.component.css',
   providers: [UserService, ToasterService],
 })
-export class HomeComponent {
+export class HomeComponent implements OnDestroy {
   /** The view container reference. */
   @ViewChild('viewContainerRef', { static: true, read: ViewContainerRef })
   private viewContainerRef!: ViewContainerRef;
 
-  private unsubscriber$ = new Subject<void>();
+  private unsubscriber$: Subject<void> = new Subject<void>();
 
   private userFormComponentRef:
     | ComponentRef<CreateUserComponent | UpdateUserComponent>
     | undefined = undefined;
 
-  readonly userTableConfig = [
+  readonly userTableConfig: ITableColumn<IUser>[] = [
     {
       definition: 'username',
       name: 'username',
@@ -73,14 +75,12 @@ export class HomeComponent {
     },
   ];
 
-  tableData$ = this.userService.getAllUsers();
+  tableData$: Observable<IUser[]> = this.userService.getAllUsers();
 
   constructor(
     private userService: UserService,
     private toasterService: ToasterService
   ) {}
-
-  ngOnInit(): void {}
 
   ngOnDestroy(): void {
     this.unsubscriber$.next();
