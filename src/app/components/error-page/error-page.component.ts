@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { take } from 'rxjs';
 
+import { CustomError } from '../../models/errors.models';
+
 @Component({
   selector: 'app-error-page',
   standalone: true,
@@ -10,7 +12,7 @@ import { take } from 'rxjs';
   styleUrl: './error-page.component.css',
 })
 export class ErrorPageComponent implements OnInit {
-  error: { code: number; message: string } = {
+  error: CustomError = {
     code: 404,
     message: 'Page not found',
   };
@@ -19,10 +21,7 @@ export class ErrorPageComponent implements OnInit {
     this.route.params.pipe(take(1)).subscribe((data) => {
       const { errorCode, errorMessage } = data;
       if (errorCode && errorMessage) {
-        this.error = { code: errorCode, message: errorMessage } as {
-          code: number;
-          message: string;
-        };
+        this.error = { code: errorCode, message: errorMessage } as CustomError;
       }
     });
   }

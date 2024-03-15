@@ -12,9 +12,9 @@ select {
 }
 
 label {
-  font: normal normal normal 13px/16px Helvetica;
+  font: var(--font-small);
   letter-spacing: 0px;
-  color: #3f4254;
+  color: var(--text-color);
   margin-bottom: 3px;
 }
 
@@ -24,14 +24,14 @@ input, select {
   border: none;
   padding: 16px;
 
-  font: normal normal 300 13px/16px Helvetica;
+  font: var(--font-small);
   letter-spacing: 0px;
-  color: #3f4254;
+  color: var(--text-color);
 }
 
 .error-field {
-  border: 1px solid #e01159;
-  outline: #e01159;
+  border: 1px solid var(--alert-highlighted);
+  outline: var(--alert-highlighted);
 }
 
 #email {
@@ -56,5 +56,5 @@ select:active {
 
 .error-message {
   margin: 0;
-  color: #e01159;
+  color: var(--alert-highlighted);
 }

@@ -1,7 +1,8 @@
 import { Overlay } from '@angular/cdk/overlay';
 import { ComponentPortal } from '@angular/cdk/portal';
 import { Injectable, Injector } from '@angular/core';
-import { ToastType, TOAST_CONFIG_TOKEN } from '../models/toaster.model';
+
+import { ToastType, TOAST_CONFIG_TOKEN, Toasts } from '../models/toaster.model';
 import { ToastRef } from './toaster-ref';
 import { ToasterComponent } from '../components/toaster/toaster.component';
 
@@ -32,10 +33,10 @@ export class ToasterService {
   }
 
   showSuccess(text: string): ToastRef {
-    return this.showMessage('success', text);
+    return this.showMessage(Toasts.SUCCESS, text);
   }
 
   showError(text: string): ToastRef {
-    return this.showMessage('error', text);
+    return this.showMessage(Toasts.ERROR, text);
   }
 }

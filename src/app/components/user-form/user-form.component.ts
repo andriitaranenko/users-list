@@ -12,6 +12,7 @@ import { IUser } from '../../models/user.model';
 import { PasswordMatchValidatorDirective } from '../../directives/password-match-validator.directive';
 import { PasswordValidatorDirective } from '../../directives/password-validator.directive';
 import { UserNameAsyncUniquenessValidatorDirective } from '../../directives/username-uniqueness-validator.directive';
+import { errorMessages } from '../../models/errors.models';
 
 @Component({
   selector: 'app-user-form',
@@ -94,15 +95,30 @@ export class UserFormComponent implements OnInit, OnDestroy {
     }
   }
 
-  hasControlErrors(controlName: string, errorCode?: string) {
-    if (errorCode) return this.formGroup?.get(controlName)?.hasError(errorCode);
-    return Boolean(this.formGroup?.get(controlName)?.errors);
-  }
-
-  isControlErrorsShown(controlName: string) {
-    return (
+  isControlValid(controlName: string): boolean {
+    return Boolean(
       this.formGroup?.get(controlName)?.touched &&
-      Boolean(this.formGroup?.get(controlName)?.errors)
+      (this.formGroup?.get(controlName)?.errors !== null)
     );
   }
+
+  controlShowError(controlName: string, error: string): boolean {
+    const control = this.formGroup?.get(controlName);
+    if (control) {
+      return control.touched && control.hasError(error);
+    }
+    return false;
+  }
+
+  getErrorMessage(error: string, formFieldName?: string): string {
+    if (error in errorMessages && error === 'required') {
+      return `${formFieldName ?? 'This field'} ${errorMessages.required}`;
+    } else if (error in errorMessages) {
+      return errorMessages[error as keyof typeof errorMessages]
+    }
+
+    return '';
+  }
+
+
 }

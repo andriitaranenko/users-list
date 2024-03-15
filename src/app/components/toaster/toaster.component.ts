@@ -1,4 +1,6 @@
 import { Component, Inject } from '@angular/core';
+import { Subscription, timer } from 'rxjs';
+
 import { TOAST_CONFIG_TOKEN, ToastConfig } from '../../models/toaster.model';
 import { ToastRef } from '../../services/toaster-ref';
 
@@ -10,8 +12,7 @@ import { ToastRef } from '../../services/toaster-ref';
   styleUrls: ['./toaster.component.css'],
 })
 export class ToasterComponent {
-  private intervalId!: number | ReturnType<typeof setTimeout>;
-
+  private intervalId: Subscription | undefined;
 
   constructor(
     private readonly toastRef: ToastRef,
@@ -20,7 +21,9 @@ export class ToasterComponent {
 
   ngOnInit() {
     // sets the timer for closing toast
-    this.intervalId = setTimeout(() => this.close(), 5000);
+    this.intervalId = timer(5000).subscribe(() => {
+      this.close();
+    });
   }
 
   close() {
@@ -28,6 +31,6 @@ export class ToasterComponent {
   }
 
   ngOnDestroy() {
-    clearTimeout(this.intervalId);
+    this.intervalId?.unsubscribe();
   }
 }

@@ -1,12 +1,7 @@
 import { NgFor, NgForOf, UpperCasePipe } from '@angular/common';
 import { Component, Input } from '@angular/core';
 
-interface ITableColumn<T> {
-  definition: string;
-  name: string;
-  data: (data: T) => string,
-  action: (data: T) => void
-}
+import { ITableColumn } from '../../models/table.models';
 
 @Component({
   selector: 'app-table',
@@ -16,9 +11,14 @@ interface ITableColumn<T> {
   styleUrl: './table.component.css',
 })
 export class TableComponent<T> {
-  selectedIndex: number = -1;
-  selectUser(index: number) {
-    this.selectedIndex = index
+  private _selectedIndex: number = -1;
+
+  get selectedIndex(): number {
+    return this._selectedIndex;
+  }
+
+  selectTableRow(index: number) {
+    this._selectedIndex = index;
   }
 
   @Input() columns: ITableColumn<T>[] = [];

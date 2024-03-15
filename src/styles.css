@@ -1,6 +1,27 @@
 /* You can add global styles to this file, and also import other style files */
 @import "@angular/cdk/overlay-prebuilt.css";
 
+:root {
+  --white: #ffffff;
+  --primary: #2E8FF0;
+  --primary-shadowed: #2E8FF029;
+  --primary-highlighted: #006edb;
+  --alert: #F44682;
+  --alert-shadowed: #F4468229;
+  --alert-highlighted: #e01159;
+  --disabled: #c4c4c4;
+  --text-color: #3f4254;
+  --success: #66BB6A;
+  --success-shadowed: #4CAF505C;
+  --error: #EF7DA0;
+  --error-shadowed: #EF7DA05C;
+
+  --font-base: normal normal normal 16px/19px Helvetica;
+  --font-base-bold: normal normal bold 16px/19px Helvetica;
+  --font-small: normal normal normal 13px/16px Helvetica;
+  --font-small-bold: normal normal bold 13px/16px Helvetica;
+}
+
 body {
   background-color: #EEF0F8;
 }

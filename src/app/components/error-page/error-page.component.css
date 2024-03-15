@@ -13,5 +13,5 @@
 }
 
 .error-message {
-  color: #3f4254;
+  color: var(--text-color);
 }

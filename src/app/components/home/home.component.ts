@@ -5,6 +5,7 @@ import {
   ViewContainerRef,
 } from '@angular/core';
 import { CommonModule, AsyncPipe } from '@angular/common';
+import { Subject, of, switchMap, takeUntil } from 'rxjs';
 
 import { IUser, UserComponentType } from '../../models/user.model';
 import { ToasterService } from '../../services/toaster.service';
@@ -13,7 +14,6 @@ import { CreateUserComponent } from '../user/create-user/create-user.component';
 import { UpdateUserComponent } from '../user/update-user/update-user.component';
 import { ButtonComponent } from '../button/button.component';
 import { TableComponent } from '../table/table.component';
-import { Subject, of, switchMap, takeUntil } from 'rxjs';
 
 @Component({
   selector: 'app-home',
@@ -104,48 +104,50 @@ export class HomeComponent {
   }
 
   openCreateUserForm() {
-    this.openUserForm(CreateUserComponent)?.pipe(
-      switchMap((data) => {
-        if (data && data.type === 'CreateUser') {
-          const newUser = { ...data.user };
-          return this.userService.createUser(newUser);
-        } else {
+    this.openUserForm(CreateUserComponent)
+      ?.pipe(
+        switchMap((data) => {
+          if (data && data.type === 'CreateUser') {
+            const newUser = { ...data.user };
+            return this.userService.createUser(newUser);
+          } else {
+            this.userFormComponentRef?.destroy();
+          }
+          return of(null);
+        }),
+        takeUntil(this.unsubscriber$)
+      )
+      .subscribe((response) => {
+        if (response) {
+          this.toasterService.showSuccess('Success message');
+          this.tableData$ = this.userService.getAllUsers();
           this.userFormComponentRef?.destroy();
         }
-        return of(null);
-      }),
-      takeUntil(this.unsubscriber$)
-    ).subscribe((response) => {
-      if (response) {
-        this.toasterService.showSuccess('Success message');
-        this.tableData$ = this.userService.getAllUsers();
-        this.userFormComponentRef?.destroy();
-      }
-    });
+      });
   }
 
   openUpdateUserForm(user: IUser) {
-    this.openUserForm(UpdateUserComponent, user)?.pipe(
-      switchMap(data => {
-        if (data && data.type === 'UpdateUser') {
-          const updatedUser = { ...data.user };
-          return this.userService
-            .updateUser(updatedUser.id, updatedUser)
-            
-        } else if (data && data.type === 'DeleteUser') {
-          return this.userService.deleteUser(data.user.id);
-        } else {
+    this.openUserForm(UpdateUserComponent, user)
+      ?.pipe(
+        switchMap((data) => {
+          if (data && data.type === 'UpdateUser') {
+            const updatedUser = { ...data.user };
+            return this.userService.updateUser(updatedUser.id, updatedUser);
+          } else if (data && data.type === 'DeleteUser') {
+            return this.userService.deleteUser(data.user.id);
+          } else {
+            this.userFormComponentRef?.destroy();
+          }
+          return of(null);
+        }),
+        takeUntil(this.unsubscriber$)
+      )
+      .subscribe((response) => {
+        if (response) {
+          this.toasterService.showSuccess('Success message');
+          this.tableData$ = this.userService.getAllUsers();
           this.userFormComponentRef?.destroy();
         }
-        return of(null)
-      }),
-      takeUntil(this.unsubscriber$)
-    ).subscribe((response) => {
-      if (response) {
-        this.toasterService.showSuccess('Success message');
-        this.tableData$ = this.userService.getAllUsers();
-        this.userFormComponentRef?.destroy();
-      }
-    });
+      });
   }
 }

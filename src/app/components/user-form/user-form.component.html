@@ -1,50 +1,50 @@
 <form [formGroupName]="controlKey">
   <div class="form-field">
     <label for="username">Username*</label>
-    <input id="username" formControlName="username" [class.error-field]="isControlErrorsShown('username')" appUniqueUsernameValidator />
-    <p *ngIf="formGroup?.get('username')?.touched && formGroup?.get('username')?.hasError('required')" class="error-message">Username is required</p>
-    <p *ngIf="formGroup?.get('username')?.touched && formGroup?.get('username')?.hasError('usernameTaken')" class="error-message">Username is taken</p>
+    <input id="username" formControlName="username" [class.error-field]="isControlValid('username')" appUniqueUsernameValidator />
+    <p *ngIf="controlShowError('username', 'required')" class="error-message">{{ getErrorMessage('required', 'Username') }}</p>
+    <p *ngIf="controlShowError('username', 'usernameTaken')" class="error-message">{{ getErrorMessage('usernameTaken') }}</p>
   </div>
 
   <div class="form-field">
     <label for="firstName">First name*</label>
-    <input id="firstName" formControlName="firstName" [class.error-field]="isControlErrorsShown('firstName')" />
-    <p *ngIf="formGroup?.get('firstName')?.touched && formGroup?.get('firstName')?.hasError('required')" class="error-message">First name is required</p>
+    <input id="firstName" formControlName="firstName" [class.error-field]="isControlValid('firstName')" />
+    <p *ngIf="controlShowError('firstName', 'required')" class="error-message">{{ getErrorMessage('required', 'First name') }}</p>
   </div>
 
   <div class="form-field">
     <label for="lastName">Last name*</label>
-    <input id="lastName" formControlName="lastName" [class.error-field]="isControlErrorsShown('lastName')" />
-    <p *ngIf="formGroup?.get('lastName')?.touched && formGroup?.get('lastName')?.hasError('required')" class="error-message">Last name is required</p>
+    <input id="lastName" formControlName="lastName" [class.error-field]="isControlValid('lastName')" />
+    <p *ngIf="controlShowError('lastName', 'required')" class="error-message">{{ getErrorMessage('required', 'Last name') }}</p>
   </div>
 
   <div class="form-field">
     <label for="email">Email*</label>
-    <input id="email" formControlName="email" [class.error-field]="isControlErrorsShown('email')" />
-    <p *ngIf="formGroup?.get('email')?.touched && formGroup?.get('email')?.hasError('required')" class="error-message">Email is required</p>
-    <p *ngIf="formGroup?.get('email')?.touched && formGroup?.get('email')?.hasError('email')" class="error-message">Email has wrong pattern</p>
+    <input id="email" formControlName="email" [class.error-field]="isControlValid('email')" />
+    <p *ngIf="controlShowError('email', 'required')" class="error-message">{{ getErrorMessage('required', 'Email') }}</p>
+    <p *ngIf="controlShowError('email', 'email')" class="error-message">{{ getErrorMessage('email') }}</p>
   </div>
 
   <div class="form-field">
     <label for="type">Type*</label>
-    <select id="type" formControlName="type" [class.error-field]="isControlErrorsShown('type')">
+    <select id="type" formControlName="type" [class.error-field]="isControlValid('type')">
       <option value="ADMIN">Administrator</option>
       <option value="DRIVER">Driver</option>
     </select>
-    <p *ngIf="formGroup?.get('type')?.touched && formGroup?.get('type')?.hasError('required')" class="error-message">Type is required</p>
+    <p *ngIf="controlShowError('type', 'required')" class="error-message">{{ getErrorMessage('required', 'Type') }}</p>
   </div>
 
   <div class="form-field">
     <label for="password">Password*</label>
-    <input id="password" formControlName="password" [class.error-field]="isControlErrorsShown('password')" type="password" appPasswordValidator />
-    <p *ngIf="formGroup?.get('password')?.touched && formGroup?.get('password')?.hasError('required')" class="error-message">Password is required</p>
-    <p *ngIf="formGroup?.get('password')?.touched && formGroup?.get('password')?.hasError('invalidPassword')" class="error-message">Password should have at least 8 characters, one letter and one number</p>
+    <input id="password" formControlName="password" [class.error-field]="isControlValid('password')" type="password" appPasswordValidator />
+    <p *ngIf="controlShowError('password', 'required')" class="error-message">{{ getErrorMessage('required', 'Password') }}</p>
+    <p *ngIf="controlShowError('password', 'invalidPassword')" class="error-message">{{ getErrorMessage('invalidPassword') }}</p>
   </div>
 
   <div class="form-field">
     <label for="passwordRepeat">Repeat password*</label>
-    <input id="passwordRepeat" formControlName="passwordRepeat" [class.error-field]="isControlErrorsShown('passwordRepeat')" type="password" appPasswordMatchValidator />
-    <p *ngIf="formGroup?.get('passwordRepeat')?.touched && formGroup?.get('passwordRepeat')?.hasError('required')" class="error-message">Repeat password is required</p>
-    <p *ngIf="formGroup?.get('passwordRepeat')?.touched && formGroup?.get('passwordRepeat')?.hasError('passwordmatcherror')" class="error-message">Repeat password should be the same as password</p>
+    <input id="passwordRepeat" formControlName="passwordRepeat" [class.error-field]="isControlValid('passwordRepeat')" type="password" appPasswordMatchValidator />
+    <p *ngIf="controlShowError('passwordRepeat', 'required')" class="error-message">{{ getErrorMessage('required', 'Repeat password') }}</p>
+    <p *ngIf="controlShowError('passwordRepeat', 'repeatPassword')" class="error-message">{{ getErrorMessage('repeatPassword') }}</p>
   </div>
 </form>

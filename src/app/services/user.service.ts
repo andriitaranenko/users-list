@@ -1,12 +1,12 @@
 import { Injectable } from '@angular/core';
 import { Observable, catchError, of, throwError } from 'rxjs';
+import { HttpErrorResponse } from '@angular/common/http';
+
 import { IUser, UserRolres } from '../models/user.model';
-import { HttpErrorResponse, HttpStatusCode } from '@angular/common/http';
 import { ToasterService } from './toaster.service';
 
 @Injectable()
 export class UserService {
-
   private users: IUser[] = [
     {
       id: 0,
@@ -42,42 +42,40 @@ export class UserService {
     },
   ];
 
-  constructor(private toasterService: ToasterService) { }
+  constructor(private toasterService: ToasterService) {}
 
   getAllUsers(): Observable<IUser[]> {
     return of(this.users);
   }
 
-  isUsernameUnique(username: string): Observable<boolean> {    
-    return of(this.users.map(user => user.username).includes(username));
+  isUsernameUnique(username: string): Observable<boolean> {
+    return of(this.users.map((user) => user.username).includes(username));
   }
 
   createUser(user: IUser) {
     this.users.push({
       ...user,
-      id: Number(new Date())
+      id: Number(new Date()),
     });
     return of(user).pipe(
-      catchError(error => this.handleUserRequestError(error))
+      catchError((error) => this.handleUserRequestError(error))
     );
   }
 
   updateUser(id: number, updatedUser: IUser) {
-    const userIndex = this.users.findIndex(user => user.id === id);
-    console.log('before: ', this.users, id, userIndex);
+    const userIndex = this.users.findIndex((user) => user.id === id);
     this.users.splice(userIndex, 1);
-    this.users.push({ ...updatedUser, id: Number(new Date()) })
-    console.log('after: ', this.users);
+    this.users.push({ ...updatedUser, id: Number(new Date()) });
     return of(updatedUser).pipe(
-      catchError(error => this.handleUserRequestError(error))
+      catchError((error) => this.handleUserRequestError(error))
     );
   }
 
   deleteUser(id: number) {
-    const userIndex = this.users.findIndex(user => user.id === id);
+    const userIndex = this.users.findIndex((user) => user.id === id);
     this.users.splice(userIndex, 1);
-    return of().pipe(
-      catchError(error => this.handleUserRequestError(error))
+    return of({ message: 'deleated successfully' }).pipe(
+      catchError((error) => this.handleUserRequestError(error))
     );
   }
 

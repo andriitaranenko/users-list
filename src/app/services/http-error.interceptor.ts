@@ -1,11 +1,12 @@
 import {
+  HTTP_INTERCEPTORS,
   HttpErrorResponse,
   HttpHandler,
   HttpInterceptor,
   HttpRequest,
   HttpStatusCode,
 } from '@angular/common/http';
-import { Injectable } from '@angular/core';
+import { Injectable, Provider } from '@angular/core';
 import { Router } from '@angular/router';
 import { catchError } from 'rxjs';
 
@@ -43,3 +44,9 @@ export class HttpErrorInterceptor implements HttpInterceptor {
     );
   }
 }
+
+export const httpErrorInterceptorProvider: Provider = {
+  provide: HTTP_INTERCEPTORS,
+  useClass: HttpErrorInterceptor,
+  multi: true,
+};
