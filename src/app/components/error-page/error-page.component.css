@@ -1,0 +1,17 @@
+:host {
+  width: 100%;
+  height: 100%;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
+
+.error-code {
+  font-size: 72px;
+}
+
+.error-message {
+  color: #3f4254;
+}

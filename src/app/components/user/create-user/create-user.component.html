@@ -1,0 +1,15 @@
+<div class="header">
+  <h2>Create new user</h2>
+  <button class="button-close" (click)="close()">
+    <img src="assets/close.svg" alt="close">
+  </button>
+</div>
+
+<form [formGroup]="form">
+  <app-user-form [controlKey]="userFormControlKey"></app-user-form>
+
+  <div class="buttons">
+    <app-button label="Create" [isDisabled]="!form.valid" (click)="createUser()"></app-button>
+  </div>
+</form>
+

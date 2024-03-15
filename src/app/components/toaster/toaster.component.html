@@ -1,0 +1,7 @@
+<div
+  class="toaster"
+  [class.success]="toastConfig.type === 'success'"
+  [class.error]="toastConfig.type === 'error'"
+>
+  {{ toastConfig.text }}
+</div>

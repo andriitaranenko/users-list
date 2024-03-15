@@ -1,0 +1,15 @@
+<div class="header">
+  <h2>{{ user.username }}</h2>
+  <button class="button-close" (click)="close()">
+    <img src="assets/close.svg" alt="close">
+  </button>
+</div>
+
+<form [formGroup]="form">
+  <app-user-form [controlKey]="userFormControlKey" [user]="user"></app-user-form>
+
+  <div class="buttons">
+    <app-button label="Delete" color="alert" (click)="deleteUser()"></app-button>
+    <app-button label="Save" [isDisabled]="!form.valid" (click)="updateUser()"></app-button>
+  </div>
+</form>

@@ -1,0 +1,19 @@
+<table>
+  <thead>
+    <tr>
+      <ng-container *ngFor="let column of columns">
+        <th>{{ column.name | uppercase }}</th>
+      </ng-container>
+    </tr>
+  </thead>
+
+  <tbody>
+    <ng-container *ngFor="let item of data; let i = index">
+      <tr (click)="selectUser(i)" [class.selected]="selectedIndex === i">
+        <ng-container *ngFor="let column of columns">
+          <td (click)="column.action(item)">{{ column.data(item) }}</td>
+        </ng-container>
+      </tr>
+    </ng-container>
+  </tbody>
+</table>
